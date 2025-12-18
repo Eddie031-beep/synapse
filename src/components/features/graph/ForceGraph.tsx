@@ -14,24 +14,28 @@ const ForceGraph = () => {
     const { theme } = useTheme();
     const isDark = theme === 'dark';
 
-    useEffect(() => {
-        setIsMounted(true);
+    // Función para ajustar el gráfico al tamaño de la pantalla
+    const updateDimensions = () => {
+        if (containerRef.current) {
+            setDimensions({
+                width: containerRef.current.offsetWidth,
+                height: containerRef.current.offsetHeight
+            });
+        }
+    };
 
-        // Función para ajustar el gráfico al tamaño de la pantalla
-        const updateDimensions = () => {
-            if (containerRef.current) {
-                setDimensions({
-                    width: containerRef.current.offsetWidth,
-                    height: containerRef.current.offsetHeight
-                });
-            }
-        };
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsMounted(true);
+            updateDimensions();
+        }, 0);
 
         window.addEventListener("resize", updateDimensions);
-        // Pequeño delay para asegurar que el contenedor ya tiene tamaño
-        setTimeout(updateDimensions, 100);
 
-        return () => window.removeEventListener("resize", updateDimensions);
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener("resize", updateDimensions);
+        };
     }, []);
 
     if (!isMounted) return null;

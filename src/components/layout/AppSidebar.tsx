@@ -1,8 +1,10 @@
-"use client"; // IMPORTANTE: Ahora es interactivo
+"use client";
+
+import { FileTreeItem } from "./FileTreeItem";
+import { initialFileSystem } from "@/data/mockFileSystem";
 
 import {
     BrainCircuit,
-    FolderTree,
     ListTodo,
     Settings,
     Search,
@@ -57,19 +59,20 @@ export function AppSidebar() {
                     Vista Neuronal
                 </button>
 
-                {/* Botón 2: MIS NOTAS */}
-                <button
-                    onClick={() => setView('NOTES')}
-                    className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                        currentView === 'NOTES'
-                            ? "bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 shadow-sm border border-zinc-200 dark:border-zinc-800"
-                            : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50"
-                    )}
-                >
-                    <FolderTree className="w-4 h-4" />
-                    Mis Notas
-                </button>
+                {/* SECCIÓN DE ARCHIVOS */}
+                <div className="pt-4 pb-2">
+                    <p className="px-2 text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2 flex justify-between items-center group cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-300">
+                        Mis Carpetas
+                        <Plus className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </p>
+
+                    {/* Renderizamos la raíz del sistema de archivos */}
+                    <div className="space-y-0.5">
+                        {initialFileSystem.map((item) => (
+                            <FileTreeItem key={item.id} item={item} />
+                        ))}
+                    </div>
+                </div>
 
                 {/* Botón 3: TABLERO */}
                 <button
