@@ -2,50 +2,48 @@
 
 import dynamic from "next/dynamic";
 import { AppSidebar } from "@/components/layout/AppSidebar";
-import { useUIStore } from "@/store/uiStore"; // Importar el store
+import { RightSidebar } from "@/components/layout/RightSidebar"; // <--- Importamos la nueva barra derecha
+import { useUIStore } from "@/store/uiStore";
 
-// Importar los componentes estáticos
 import NotesView from "@/components/features/notes/NotesView";
 import TodoBoard from "@/components/features/todo/TodoBoard";
 
-// Importación dinámica del Gráfico (para evitar error SSR)
+// Importar el gráfico sin SSR
 const NeuralGraph = dynamic(
   () => import("@/components/features/graph/ForceGraph"),
   { ssr: false }
 );
 
 export default function Home() {
-  // Leemos qué vista está activa
   const { currentView } = useUIStore();
 
   return (
-    <div className="flex h-screen bg-white dark:bg-black overflow-hidden">
+    <div className="flex h-screen bg-zinc-50 dark:bg-black overflow-hidden font-sans">
 
+      {/* 1. IZQUIERDA */}
       <AppSidebar />
 
-      <main className="flex-1 relative flex flex-col h-full overflow-hidden bg-zinc-50/50 dark:bg-zinc-900/50">
-
-        {/* Renderizado Condicional: "Si es X, muestra Y" */}
+      {/* 2. CENTRO (Contenido Flexible) */}
+      <main className="flex-1 relative flex flex-col h-full overflow-hidden bg-white dark:bg-zinc-950/50 rounded-tl-3xl rounded-bl-3xl shadow-2xl z-10 border-l border-zinc-200 dark:border-zinc-800 my-2 ml-[-10px] mr-2 lg:mr-0 lg:ml-0 lg:my-0 lg:rounded-none lg:shadow-none lg:border-none">
 
         {currentView === 'GRAPH' && (
-          <>
-            {/* Header flotante solo para el gráfico */}
-            <header className="absolute top-0 left-0 right-0 p-6 z-10 pointer-events-none">
-              <h2 className="text-2xl font-bold text-zinc-800 dark:text-zinc-100 pointer-events-auto inline-block">
-                Vista Neuronal
-              </h2>
-            </header>
-            <div className="flex-1 w-full h-full">
-              <NeuralGraph />
+          <div className="flex-1 w-full h-full relative">
+            <div className="absolute top-6 left-8 z-10 pointer-events-none">
+              <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">Vista Neuronal</h2>
+              <p className="text-zinc-500">Mapa de integridad del sistema</p>
             </div>
-          </>
+            <NeuralGraph />
+          </div>
         )}
 
         {currentView === 'NOTES' && <NotesView />}
-
         {currentView === 'TODO' && <TodoBoard />}
 
       </main>
+
+      {/* 3. DERECHA */}
+      <RightSidebar />
+
     </div>
   );
 }

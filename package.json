@@ -13,8 +13,11 @@
     "@tailwindcss/typography": "^0.5.19",
     "@tiptap/react": "^3.13.0",
     "@tiptap/starter-kit": "^3.13.0",
+    "@types/d3": "^7.4.3",
+    "@types/uuid": "^10.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "d3": "^7.9.0",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
     "next": "^15.5.7",
@@ -23,6 +26,7 @@
     "react-dom": "^19.2.3",
     "react-force-graph-2d": "^1.29.0",
     "tailwind-merge": "^3.4.0",
+    "uuid": "^13.0.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {

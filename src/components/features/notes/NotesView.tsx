@@ -5,7 +5,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorToolbar } from "./EditorToolbar";
 import { useUIStore } from "@/store/uiStore";
-import { initialFileSystem } from "@/data/mockFileSystem";
+import { useFileStore } from "@/store/fileStore"; // <--- Importar el store
 import { FileSystemItem } from "@/types/fileSystem";
 
 // Función auxiliar recursiva para encontrar una nota en el árbol
@@ -22,9 +22,10 @@ const findNoteById = (items: FileSystemItem[], id: string): FileSystemItem | nul
 
 export default function NotesView() {
     const { activeNoteId } = useUIStore();
+    const { fileSystem } = useFileStore(); // <--- Traemos el sistema de archivos actualizado
 
-    // Buscar la nota activa en nuestros datos
-    const activeNote = activeNoteId ? findNoteById(initialFileSystem, activeNoteId) : null;
+    // Buscar en 'fileSystem' en lugar de 'initialFileSystem'
+    const activeNote = activeNoteId ? findNoteById(fileSystem, activeNoteId) : null;
 
     const editor = useEditor({
         extensions: [StarterKit],

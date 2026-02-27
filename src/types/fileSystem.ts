@@ -1,10 +1,15 @@
-export type FileType = 'note' | 'folder';
+export type FileType = 'note' | 'folder' | 'binary' | 'malware';
+export type SecurityStatus = 'safe' | 'scanning' | 'danger' | 'unknown';
 
 export interface FileSystemItem {
     id: string;
     name: string;
     type: FileType;
     parentId: string | null;
-    children?: FileSystemItem[]; // Aquí está la magia recursiva
-    isOpen?: boolean; // Solo para carpetas: ¿está expandida?
+    children?: FileSystemItem[];
+    isOpen?: boolean;
+
+    // --- NUEVO: Propiedades de Seguridad ---
+    status?: SecurityStatus;
+    size?: string; // Ej: "1.2 MB"
 }
